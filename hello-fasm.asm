@@ -1,19 +1,20 @@
-format PE console
-entry start
+format ELF64
 
-section '.data' data readable writeable
-    hello db 'Hello, World!', 0
+section '.data' writable
+    hello db 'Hello, world!',0
 
-section '.text' code readable executable
-start:
-    ; Write 'Hello, World!' to console
-    mov eax, 4       ; 'write' system call
-    mov ebx, 1       ; file descriptor 1 = stdout
-    mov ecx, hello   ; message to write
-    mov edx, 13      ; message length
-    int 0x80         ; call kernel
-    
-    ; Exit program
-    mov eax, 1       ; 'exit' system call
-    xor ebx, ebx     ; return code 0
-    int 0x80         ; call kernel
+section '.text' executable
+global _start
+
+_start:
+    ; write "Hello, world!" to stdout
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, hello
+    mov rdx, 13
+    syscall
+
+    ; exit program with status code 0
+    mov rax, 60
+    xor rdi, rdi
+    syscall
