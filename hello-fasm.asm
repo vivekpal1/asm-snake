@@ -1,3 +1,6 @@
+; Hello World in fasm x86_64
+
+
 format ELF64
 
 section '.data' writable
